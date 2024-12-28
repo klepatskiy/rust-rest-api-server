@@ -1,15 +1,25 @@
-use axum::response::IntoResponse;
 use axum::Json;
+use serde::{Serialize};
+use utoipa::ToSchema;
 
 pub mod user;
 
-pub async fn healthcheck_handler() -> impl IntoResponse {
+#[derive(ToSchema, Serialize)]
+pub struct HealthCheckResponse {
+    status: String,
+    message: String,
+}
+
+#[utoipa::path(
+    method(get),
+    path = "/healthcheck",
+    responses((status = 200, body = HealthCheckResponse))
+)]
+pub async fn healthcheck_handler() -> Json<HealthCheckResponse> {
     const MESSAGE: &str = "Simple CRUD API with Rust, SQLX, Postgres,and Axum";
 
-    let json_response = serde_json::json!({
-        "status": "success",
-        "message": MESSAGE
-    });
-
-    Json(json_response)
+    Json(HealthCheckResponse {
+        status: "Success".to_string(),
+        message: MESSAGE.to_string(),
+    })
 }

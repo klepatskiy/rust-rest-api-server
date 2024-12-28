@@ -1,7 +1,6 @@
 # Description
 rust rest api server axum
 
-
 ## Setup
 Докер контрейнеры с postgres и openapi-generator
 ```shell
@@ -11,12 +10,6 @@ rust rest api server axum
 Выполнить миграции
 ```shell
   make migrate
-```
-
-
-Generate request and response DTO from open api 
-```shell
-  make speca
 ```
 
 use sqlx migrate to create a migration
