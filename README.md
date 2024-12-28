@@ -22,4 +22,4 @@ Generate request and response DTO from open api
 use sqlx migrate to create a migration
 ```shell
   sqlx migrate add <migration_name>
-```# rust-rest-api-server
+```
