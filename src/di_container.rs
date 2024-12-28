@@ -1,47 +1,34 @@
-use shaku::{module};
-use crate::application::command::login_command::LoginCommandHandler;
-use crate::application::command::refresh_token_command::RefreshTokenCommandHandler;
-use crate::application::query::verify_token_query::VerifyTokenQueryHandler;
-use crate::infrastructure::service::jwt::{JwtService, JwtServiceImpl};
+use shaku::module;
+use crate::app::use_case::command::create_user::CreateUserCommandHandler;
+use crate::app::use_case::query::user_by_id::UserQueryHandler;
+
+use crate::repository::postgres::user::user_repository::{
+    UserRepositoryImpl,
+    UserRepositoryImplParameters
+};
+
+use crate::app::service::user::UserServiceImpl;
+use sqlx::{Pool, Postgres};
+use std::sync::Arc;
 
 module! {
-    pub AuthContainer {
+    pub Container {
         components = [
-            JwtServiceImpl,
-            LoginCommandHandler,
-            RefreshTokenCommandHandler,
-            VerifyTokenQueryHandler
+            UserRepositoryImpl,
+            UserServiceImpl,
+            CreateUserCommandHandler,
+            UserQueryHandler,
         ],
         providers = []
     }
 }
 
-impl AuthContainer {
-    pub fn new(secret_key: Vec<u8>, refresh_secret_key: Vec<u8>) -> Self {
-        let jwt_service = JwtServiceImpl::new(secret_key, refresh_secret_key);
-        AuthContainer::builder()
-            .with_component_override(Box::new(jwt_service) as Box<dyn JwtService>)
-            .build()
-    }
-}
-
-module! {
-    pub UserContainer {
-        components = [
-            JwtServiceImpl,
-            LoginCommandHandler,
-            RefreshTokenCommandHandler,
-            VerifyTokenQueryHandler
-        ],
-        providers = []
-    }
-}
-
-impl UserContainer {
-    pub fn new(secret_key: Vec<u8>, refresh_secret_key: Vec<u8>) -> Self {
-        let jwt_service = JwtServiceImpl::new(secret_key, refresh_secret_key);
-        UserContainer::builder()
-            .with_component_override(Box::new(jwt_service) as Box<dyn JwtService>)
+impl Container {
+    pub fn new(pool: Arc<Pool<Postgres>>) -> Self {
+        Container::builder()
+            .with_component_parameters::<UserRepositoryImpl>(UserRepositoryImplParameters{
+                db: pool,
+            })
             .build()
     }
 }

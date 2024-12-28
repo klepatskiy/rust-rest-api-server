@@ -8,50 +8,206 @@ servers:
 
 paths:
   /user:
-    $ref: "./user/user.yaml"
+    get:
+      summary: Get all users
+      operationId: getAllUsers
+      tags:
+        - User
+      responses:
+        '200':
+          description: A list of users
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserListSuccessResponse'
+    post:
+      summary: Create user
+      operationId: createUser
+      tags:
+        - User
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserCreate'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserCreateSuccessResponse'
+        '400':
+          description: Validation or other error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserErrorResponse'
 
   /user/{id}:
-    $ref: "./user/user_id.yaml"
+    get:
+      summary: Get user by ID
+      operationId: getUserById
+      tags:
+        - User
+      parameters:
+        - name: id
+          in: path
+          description: User UUID
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: User found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserSingleSuccessResponse'
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserErrorResponse'
+    delete:
+      summary: Delete user by ID
+      operationId: deleteUser
+      tags:
+        - User
+      parameters:
+        - name: id
+          in: path
+          description: User UUID
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '204':
+          description: User deleted
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserErrorResponse'
 
 components:
   schemas:
-    # Пример схемы "User"
-    User:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        first_name:
-          type: string
-          minLength: 3
-        last_name:
-          type: string
-          nullable: true
-          minLength: 3
-        created_at:
-          type: string
-          format: date-time
-        updated_at:
-          type: string
-          format: date-time
-      required:
-        - id
-        - first_name
-        - created_at
-        - updated_at
-
+    # ----------- Входные данные для POST -----------
     UserCreate:
       type: object
       properties:
         first_name:
           type: string
           minLength: 3
-          description: "Нельзя пустую строку. Должно быть не менее 4 символов."
+          example: "John"
         last_name:
           type: string
           minLength: 3
+          example: "Doe"
           nullable: true
-          description: "Опционально. Если указано, то минимум 4 символа."
       required:
         - first_name
+
+    # ----------- Пользователь -----------
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: "39e66d3e-ccf7-4bdf-9c0f-be98417b59be"
+        first_name:
+          type: string
+          example: "John"
+        last_name:
+          type: string
+          nullable: true
+          example: "Doe"
+        created_at:
+          type: string
+          format: date-time
+          example: "2024-01-01T12:34:56Z"
+        updated_at:
+          type: string
+          format: date-time
+          example: "2024-01-01T12:34:56Z"
+      required:
+        - id
+        - first_name
+        - created_at
+        - updated_at
+
+    # ----------- Базовые ответы -----------
+    BaseSuccessResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          example: success
+        message:
+          type: string
+          example: "Operation successful"
+      required:
+        - status
+        - message
+
+    BaseErrorResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          example: error
+        message:
+          type: string
+          example: "Validation failed"
+        details:
+          type: array
+          items:
+            type: string
+          example:
+            - "last_name must be at least 3 characters"
+      required:
+        - status
+        - message
+
+    # ----------- Успешные ответы -----------
+    UserListSuccessResponse:
+      allOf:
+        - $ref: '#/components/schemas/BaseSuccessResponse'
+        - type: object
+          properties:
+            data:
+              type: array
+              items:
+                $ref: '#/components/schemas/User'
+
+    UserSingleSuccessResponse:
+      allOf:
+        - $ref: '#/components/schemas/BaseSuccessResponse'
+        - type: object
+          properties:
+            data:
+              $ref: '#/components/schemas/User'
+
+    # ----------- Успешный ответ без data для POST -----------
+    UserCreateSuccessResponse:
+      allOf:
+        - $ref: '#/components/schemas/BaseSuccessResponse'
+        - type: object
+          properties:
+            operationId:
+              type: string
+              format: uuid
+              example: "39e66d3e-ccf7-4bdf-9c0f-be98417b59be"
+      required:
+        - operationId
+
+    # ----------- Ошибка (400/404/500) -----------
+    UserErrorResponse:
+      allOf:
+        - $ref: '#/components/schemas/BaseErrorResponse'
