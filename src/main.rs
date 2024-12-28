@@ -1,18 +1,18 @@
-mod route;
-mod domain;
 mod app;
-mod repository;
-mod ui;
 mod di_container;
+mod domain;
+mod repository;
+mod route;
+mod ui;
 
-use std::sync::Arc;
-use axum::http::{HeaderValue, Method};
-use axum::http::header::{ACCEPT, AUTHORIZATION, CONTENT_TYPE};
-use dotenv::dotenv;
-use sqlx::postgres::PgPoolOptions;
-use tower_http::cors::CorsLayer;
-use route::create_router;
 use crate::di_container::Container;
+use axum::http::header::{ACCEPT, AUTHORIZATION, CONTENT_TYPE};
+use axum::http::{HeaderValue, Method};
+use dotenv::dotenv;
+use route::create_router;
+use sqlx::postgres::PgPoolOptions;
+use std::sync::Arc;
+use tower_http::cors::CorsLayer;
 
 pub struct ServerImpl {
     container: Container,
@@ -31,7 +31,8 @@ async fn main() {
     let pool = PgPoolOptions::new()
         .max_connections(10)
         .connect(&database_url)
-        .await.expect("Failed to create pool");
+        .await
+        .expect("Failed to create pool");
 
     let cors = CorsLayer::new()
         .allow_origin("http://localhost:3000".parse::<HeaderValue>().unwrap())
@@ -41,9 +42,7 @@ async fn main() {
 
     let server = ServerImpl::new(Container::new(Arc::new(pool)));
     let app = create_router(Arc::new(server.container)).layer(cors);
-    let listener = tokio::net::TcpListener::bind("0.0.0.0:80")
-        .await
-        .unwrap();
+    let listener = tokio::net::TcpListener::bind("0.0.0.0:80").await.unwrap();
 
     axum::serve(listener, app).await.unwrap();
 }

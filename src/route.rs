@@ -1,10 +1,10 @@
-use std::sync::Arc;
-use axum::{
-    Router,
-    routing::{get, post},
-};
 use crate::di_container::Container;
 use crate::ui::http;
+use axum::{
+    routing::{get, post},
+    Router,
+};
+use std::sync::Arc;
 
 pub fn create_router(container: Arc<Container>) -> Router {
     Router::new()

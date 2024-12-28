@@ -1,14 +1,13 @@
-use std::sync::Arc;
+use crate::app::use_case::command::create_user::CreateUserCommand;
+use crate::app::CommandHandler;
+use crate::di_container::Container;
 use axum::extract::State;
 use axum::http::StatusCode;
-use axum::Json;
 use axum::response::IntoResponse;
-use shaku::HasComponent;
-use crate::app::CommandHandler;
-use crate::app::use_case::command::create_user::{CreateUserCommand};
-use crate::di_container::Container;
+use axum::Json;
 use openapi::models::{UserCreate, UserCreateSuccessResponse};
-
+use shaku::HasComponent;
+use std::sync::Arc;
 
 pub async fn create_user_handler(
     State(container): State<Arc<Container>>,

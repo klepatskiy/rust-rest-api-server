@@ -1,8 +1,8 @@
+use crate::app::dto::user::{CreateUserDto, UserDto};
+use crate::app::error::service_error::ServiceError;
 use async_trait::async_trait;
 use shaku::Interface;
 use uuid::Uuid;
-use crate::app::dto::user::{CreateUserDto, UserDto};
-use crate::app::error::service_error::ServiceError;
 
 #[async_trait]
 pub trait UserService: Interface {

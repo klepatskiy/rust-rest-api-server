@@ -1,8 +1,8 @@
+use crate::domain::user::entity::User;
 use async_trait::async_trait;
 use shaku::Interface;
 use sqlx::Error;
 use uuid::Uuid;
-use crate::domain::user::entity::User;
 
 #[async_trait]
 pub trait UserRepository: Interface {

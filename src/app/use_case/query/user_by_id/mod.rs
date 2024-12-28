@@ -1,11 +1,11 @@
-use std::str::FromStr;
-use crate::app::dto::user::{UserDto};
+use crate::app::dto::user::UserDto;
 use crate::app::error::service_error::ServiceError;
 use crate::app::error::AppError;
 use crate::app::QueryHandler;
 use crate::domain::user::service::UserService;
 use async_trait::async_trait;
 use shaku::Component;
+use std::str::FromStr;
 use std::sync::Arc;
 use uuid::Uuid;
 

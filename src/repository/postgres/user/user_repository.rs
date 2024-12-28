@@ -1,10 +1,10 @@
-use std::sync::Arc;
+use crate::domain::user::entity::User;
+use crate::domain::user::repository::UserRepository;
 use async_trait::async_trait;
 use shaku::Component;
 use sqlx::{Error, Pool, Postgres};
+use std::sync::Arc;
 use uuid::Uuid;
-use crate::domain::user::entity::User;
-use crate::domain::user::repository::UserRepository;
 
 #[derive(Component)]
 #[shaku(interface = UserRepository)]
@@ -49,4 +49,3 @@ impl UserRepository for UserRepositoryImpl {
         todo!()
     }
 }
-

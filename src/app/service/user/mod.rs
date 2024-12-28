@@ -1,13 +1,13 @@
-use std::sync::Arc;
-use async_trait::async_trait;
-use chrono::Utc;
-use shaku::Component;
-use uuid::Uuid;
 use crate::app::dto::user::{CreateUserDto, UserDto};
 use crate::app::error::service_error::ServiceError;
 use crate::domain::user::entity::User;
 use crate::domain::user::repository::UserRepository;
 use crate::domain::user::service::UserService;
+use async_trait::async_trait;
+use chrono::Utc;
+use shaku::Component;
+use std::sync::Arc;
+use uuid::Uuid;
 
 #[derive(Component)]
 #[shaku(interface = UserService)]
@@ -32,7 +32,7 @@ impl UserService for UserServiceImpl {
             Err(e) => {
                 println!("{:?}", e);
                 Err(ServiceError::ServiceInternalError)
-            },
+            }
         }
     }
 

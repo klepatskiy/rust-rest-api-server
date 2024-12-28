@@ -1,13 +1,13 @@
-pub mod error;
 pub mod dto;
+pub mod error;
 pub mod service;
 pub mod use_case;
 
+use crate::app::error::AppError;
+use crate::app::use_case::command::create_user::CreateUserCommand;
 use async_trait::async_trait;
 use shaku::Interface;
 use uuid::Uuid;
-use crate::app::error::AppError;
-use crate::app::use_case::command::create_user::CreateUserCommand;
 
 #[async_trait]
 pub trait CommandHandler<C>: Interface + Send + Sync {

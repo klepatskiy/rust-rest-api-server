@@ -1,5 +1,5 @@
-use axum::Json;
 use axum::response::IntoResponse;
+use axum::Json;
 
 pub mod user;
 
