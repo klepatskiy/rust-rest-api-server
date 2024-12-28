@@ -1,0 +1,57 @@
+openapi: 3.0.3
+info:
+  title: User API
+  version: "1.0.0"
+
+servers:
+  - url: http://localhost:3000
+
+paths:
+  /user:
+    $ref: "./user/user.yaml"
+
+  /user/{id}:
+    $ref: "./user/user_id.yaml"
+
+components:
+  schemas:
+    # Пример схемы "User"
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        first_name:
+          type: string
+          minLength: 3
+        last_name:
+          type: string
+          nullable: true
+          minLength: 3
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+      required:
+        - id
+        - first_name
+        - created_at
+        - updated_at
+
+    UserCreate:
+      type: object
+      properties:
+        first_name:
+          type: string
+          minLength: 3
+          description: "Нельзя пустую строку. Должно быть не менее 4 символов."
+        last_name:
+          type: string
+          minLength: 3
+          nullable: true
+          description: "Опционально. Если указано, то минимум 4 символа."
+      required:
+        - first_name
