@@ -21,14 +21,13 @@ impl UserRepository for UserRepositoryImpl {
         "#;
 
         sqlx::query(sql)
-            .bind(&user.id)
+            .bind(user.id)
             .bind(&user.first_name)
             .bind(&user.last_name)
-            .bind(&user.created_at)
-            .bind(&user.updated_at)
+            .bind(user.created_at)
+            .bind(user.updated_at)
             .execute(&*self.db)
-            .await
-            .map_err(|e| e)?;
+            .await?;
 
         Ok(())
     }
@@ -41,10 +40,9 @@ impl UserRepository for UserRepositoryImpl {
         "#;
 
         sqlx::query_as::<_, User>(sql)
-            .bind(&id)
+            .bind(id)
             .fetch_one(&*self.db)
             .await
-            .map_err(|e| e)
     }
 
     async fn get_users(&self) -> Result<Vec<User>, Error> {

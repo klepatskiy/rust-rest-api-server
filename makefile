@@ -19,3 +19,9 @@ speca: rm-speca speca-gen
 .PHONY: migrate
 migrate:
     sqlx migrate run
+
+.PHONY: clippy
+clippy:
+    cargo clippy  -- -D warnings
+
+

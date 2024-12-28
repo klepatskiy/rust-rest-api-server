@@ -23,7 +23,7 @@ pub struct UserQueryHandler {
 #[async_trait]
 impl QueryHandler<UserQuery, UserDto> for UserQueryHandler {
     async fn handle(&self, query: UserQuery) -> Result<UserDto, AppError> {
-        let uuid = Uuid::from_str(&*query.uuid).map_err(|_| AppError::SomeError)?;
+        let uuid = Uuid::from_str(&query.uuid).map_err(|_| AppError::SomeError)?;
 
         match self.user_service.get_user_by_id(uuid).await {
             Ok(user) => Ok(user),
