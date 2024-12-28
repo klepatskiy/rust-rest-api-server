@@ -21,10 +21,15 @@ jobs:
           toolchain: stable
           components: clippy, rustfmt
 
-      - name: Install protoc
+      - name: Generate Rust client from OpenAPI
         run: |
-          sudo apt-get update
-          sudo apt-get install -y protobuf-compiler
+          docker run --rm \
+            -v ${{ github.workspace }}/public/openapi-spec:/openapi-spec \
+            -v ${{ github.workspace }}/external:/external \
+            openapitools/openapi-generator-cli:latest generate \
+            -g rust \
+            -i /openapi-spec/service-openapi.yaml \
+            -o /external
 
       - name: Build project
         run: cargo build --verbose
