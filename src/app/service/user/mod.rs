@@ -13,7 +13,7 @@ use crate::domain::user::service::UserService;
 #[shaku(interface = UserService)]
 pub struct UserServiceImpl {
     #[shaku(inject)]
-    pub user_repository: Arc<dyn UserRepository>,
+    user_repository: Arc<dyn UserRepository>,
 }
 
 #[async_trait]
