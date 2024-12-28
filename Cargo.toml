@@ -6,8 +6,6 @@ edition = "2021"
 [workspace]
 members = ["external"]
 
-ignore = ["external"]
-
 [dependencies]
 sqlx = { version = "0.8.2", features = ["runtime-async-std", "macros", "postgres", "uuid", "chrono"] }
 axum = "0.8.0-rc.1"
