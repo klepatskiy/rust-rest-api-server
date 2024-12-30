@@ -2,6 +2,6 @@ POST http://localhost/user
 Content-Type: application/json
 
 {
-  "first_name": "fi",
-  "last_name":"l"
+  "first_name": "Robert",
+  "last_name":"Stark"
 }
