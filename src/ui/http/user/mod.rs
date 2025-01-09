@@ -4,12 +4,12 @@ use crate::di_container::Container;
 use axum::extract::State;
 use axum::http::StatusCode;
 use axum::Json;
+use axum_valid::Valid;
+use serde::{Deserialize, Serialize};
 use shaku::HasComponent;
 use std::sync::Arc;
-use serde::{Deserialize, Serialize};
 use utoipa::ToSchema;
 use validator::Validate;
-use axum_valid::Valid;
 
 #[derive(ToSchema, Deserialize, Validate, Clone, Debug)]
 pub struct UserCreate {

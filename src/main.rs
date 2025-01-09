@@ -33,7 +33,7 @@ async fn main() {
 
     let server = ServerImpl::new(Container::new(Arc::new(pool)));
     let router = create_router(Arc::new(server.container));
-    
+
     let listener = tokio::net::TcpListener::bind("0.0.0.0:80").await.unwrap();
 
     axum::serve(listener, router).await.unwrap();

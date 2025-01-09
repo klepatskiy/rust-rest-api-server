@@ -21,15 +21,15 @@ jobs:
           toolchain: stable
           components: clippy, rustfmt
 
-      - name: Generate Rust client from OpenAPI
-        run: |
-          docker run --rm \
-            -v ${{ github.workspace }}/public/openapi-spec:/openapi-spec \
-            -v ${{ github.workspace }}/external:/external \
-            openapitools/openapi-generator-cli:latest generate \
-            -g rust \
-            -i /openapi-spec/service-openapi.yaml \
-            -o /external
+#      - name: Generate Rust client from OpenAPI
+#        run: |
+#          docker run --rm \
+#            -v ${{ github.workspace }}/public/openapi-spec:/openapi-spec \
+#            -v ${{ github.workspace }}/external:/external \
+#            openapitools/openapi-generator-cli:latest generate \
+#            -g rust \
+#            -i /openapi-spec/service-openapi.yaml \
+#            -o /external
 
       - name: Build project
         run: cargo build --verbose
@@ -40,5 +40,5 @@ jobs:
       - name: Run clippy
         run: cargo clippy -- -D warnings
 
-#      - name: Format code
-#        run: cargo fmt -- --check
+      - name: Format code
+        run: cargo fmt -- --check

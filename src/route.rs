@@ -1,11 +1,11 @@
 use crate::di_container::Container;
 use crate::ui::http;
-use std::sync::Arc;
-use axum::http::{HeaderValue, Method};
 use axum::http::header::{ACCEPT, AUTHORIZATION, CONTENT_TYPE};
+use axum::http::{HeaderValue, Method};
 use axum::Router;
+use std::sync::Arc;
 use tower_http::cors::CorsLayer;
-use utoipa::{OpenApi};
+use utoipa::OpenApi;
 use utoipa_axum::router::OpenApiRouter;
 use utoipa_axum::routes;
 use utoipa_swagger_ui::SwaggerUi;
