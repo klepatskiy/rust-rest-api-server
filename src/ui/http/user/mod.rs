@@ -9,6 +9,7 @@ use std::sync::Arc;
 use serde::{Deserialize, Serialize};
 use utoipa::ToSchema;
 use validator::Validate;
+use axum_valid::Valid;
 
 #[derive(ToSchema, Deserialize, Validate, Clone, Debug)]
 pub struct UserCreate {
@@ -51,18 +52,8 @@ pub struct UserCreateErrorResponse {
 )]
 pub async fn create_user_handler(
     State(container): State<Arc<Container>>,
-    user: Json<UserCreate>,
+    user: Valid<Json<UserCreate>>,
 ) -> Result<Json<UserCreateSuccessResponse>, (StatusCode, Json<UserCreateErrorResponse>)> {
-    if let Err(errors) = user.validate() {
-        return Err((
-            StatusCode::BAD_REQUEST,
-            Json(UserCreateErrorResponse {
-                status: "Error".to_string(),
-                message: errors.to_string(),
-            }),
-        ));
-    }
-
     const MESSAGE: &str = "Success";
     const STATUS: &str = "User created";
     let command = CreateUserCommand {
