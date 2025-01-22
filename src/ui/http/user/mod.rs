@@ -62,10 +62,10 @@ pub async fn create_user_handler(
     };
 
     let handler: &dyn CommandHandler<CreateUserCommand> = container.resolve_ref();
-    let result = handler.handle(command).await;
+    let result = handler.handle(command).await?;
 
     match result {
-        Ok(operation_id) => Ok(Json(UserCreateSuccessResponse {
+        Ok(operation_id) => Ok(Json(&UserCreateSuccessResponse {
             status: STATUS.to_string(),
             message: MESSAGE.to_string(),
             operation_id: operation_id.to_string(),
