@@ -1,4 +1,5 @@
 use crate::app::use_case::bus::CommandHandler;
+use crate::app::use_case::command::create_user::create_user_command::CreateUserCommand;
 use axum::extract::State;
 use axum::http::StatusCode;
 use axum::Json;
@@ -7,7 +8,6 @@ use serde::{Deserialize, Serialize};
 use std::sync::Arc;
 use utoipa::ToSchema;
 use validator::Validate;
-use crate::app::use_case::command::create_user::create_user_command::CreateUserCommand;
 
 #[derive(ToSchema, Deserialize, Validate, Clone, Debug)]
 pub struct UserCreate {

@@ -1,3 +1,4 @@
+use crate::app::dto::user::create_user_dto::CreateUserDto;
 use crate::app::error::service_error::ServiceError;
 use crate::app::error::AppError;
 use crate::app::use_case::bus::CommandHandler;
@@ -6,7 +7,6 @@ use async_trait::async_trait;
 use shaku::Component;
 use std::sync::Arc;
 use uuid::Uuid;
-use crate::app::dto::user::create_user_dto::CreateUserDto;
 
 pub struct CreateUserCommand {
     pub first_name: String,

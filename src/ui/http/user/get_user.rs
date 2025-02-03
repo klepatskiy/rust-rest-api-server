@@ -1,12 +1,12 @@
+use crate::app::dto::user::user_dto::UserDto;
 use crate::app::use_case::bus::QueryHandler;
+use crate::app::use_case::query::user_by_id::UserQuery;
 use axum::extract::{Path, State};
 use axum::http::StatusCode;
 use axum::Json;
 use serde::{Deserialize, Serialize};
 use std::sync::Arc;
 use utoipa::ToSchema;
-use crate::app::dto::user::user_dto::UserDto;
-use crate::app::use_case::query::user_by_id::UserQuery;
 
 #[derive(ToSchema, Serialize, Deserialize)]
 pub struct UserResponse {
@@ -22,7 +22,6 @@ pub struct UserResponse {
     updated_at: i64,
 }
 
-
 #[utoipa::path(
     method(get),
     path = "/user/{id}",
@@ -35,9 +34,7 @@ pub async fn get_user_handler(
     Path(id): Path<String>,
     State(handler): State<Arc<dyn QueryHandler<UserQuery, UserDto>>>,
 ) -> Result<Json<UserResponse>, StatusCode> {
-    let command = UserQuery {
-        uuid: id,
-    };
+    let command = UserQuery { uuid: id };
 
     let result = handler.handle(command).await;
     match result {

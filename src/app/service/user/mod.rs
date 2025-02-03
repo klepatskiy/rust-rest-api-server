@@ -1,3 +1,5 @@
+use crate::app::dto::user::create_user_dto::CreateUserDto;
+use crate::app::dto::user::user_dto::UserDto;
 use crate::app::error::service_error::ServiceError;
 use crate::domain::user::entity::User;
 use crate::domain::user::repository::UserRepository;
@@ -7,8 +9,6 @@ use chrono::Utc;
 use shaku::Component;
 use std::sync::Arc;
 use uuid::Uuid;
-use crate::app::dto::user::create_user_dto::CreateUserDto;
-use crate::app::dto::user::user_dto::UserDto;
 
 #[derive(Component)]
 #[shaku(interface = UserService)]

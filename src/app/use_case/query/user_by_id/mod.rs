@@ -1,3 +1,4 @@
+use crate::app::dto::user::user_dto::UserDto;
 use crate::app::error::service_error::ServiceError;
 use crate::app::error::AppError;
 use crate::app::use_case::bus::QueryHandler;
@@ -7,7 +8,6 @@ use shaku::Component;
 use std::str::FromStr;
 use std::sync::Arc;
 use uuid::Uuid;
-use crate::app::dto::user::user_dto::UserDto;
 
 pub struct UserQuery {
     pub uuid: String,
