@@ -34,7 +34,7 @@ impl UserRepository for UserRepositoryImpl {
 
     async fn get_user_by_id(&self, id: Uuid) -> Result<User, Error> {
         let sql = r#"
-            SELECT id, first_name, last_name, nickname, created_at, updated_at
+            SELECT id, first_name, last_name, created_at, updated_at
             FROM users
             WHERE id = $1
         "#;

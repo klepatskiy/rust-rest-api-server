@@ -1,4 +1,3 @@
-use crate::app::use_case::command::create_user::CreateUserCommandHandler;
 use crate::app::use_case::query::user_by_id::UserQueryHandler;
 use shaku::module;
 
@@ -9,6 +8,7 @@ use crate::repository::postgres::user::user_repository::{
 use crate::app::service::user::UserServiceImpl;
 use sqlx::{Pool, Postgres};
 use std::sync::Arc;
+use crate::app::use_case::command::create_user::create_user_command::CreateUserCommandHandler;
 
 module! {
     pub Container {
